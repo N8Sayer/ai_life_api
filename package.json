@@ -1,0 +1,19 @@
+{
+  "name": "ai_life_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackmead515/ai_life_api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jackmead515/ai_life_api/issues"
+  },
+  "homepage": "https://github.com/jackmead515/ai_life_api#readme"
+}
