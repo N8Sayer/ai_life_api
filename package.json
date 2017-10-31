@@ -10,10 +10,20 @@
     "type": "git",
     "url": "git+https://github.com/jackmead515/ai_life_api.git"
   },
-  "author": "",
+  "author": "Jack Mead <jackmead515@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jackmead515/ai_life_api/issues"
   },
-  "homepage": "https://github.com/jackmead515/ai_life_api#readme"
+  "homepage": "https://github.com/jackmead515/ai_life_api#readme",
+  "devDependencies": {
+    "supervisor": "^0.12.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "express-status-monitor": "^1.0.1",
+    "mongoose": "^4.12.5",
+    "socket.io": "^2.0.4"
+  }
 }
