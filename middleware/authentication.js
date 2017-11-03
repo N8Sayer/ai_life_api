@@ -1,6 +1,17 @@
-import bodyParser from 'body-parser';
-//import mongodb database
+const bodyParser = require('body-parser');
+const express = require('express');
 
-export default const authenticate = (req, res, next) => {
-  // return true of false based on authentication
+var authentication = express.Router();
+
+authentication.get('/', function(req, res, next) {
+  next();
+});
+
+const io_authenticate = (socket, next) => {
+  next();
 };
+
+module.exports = {
+  io_authenticate,
+  authentication
+}

@@ -16,6 +16,7 @@ var User = new Schema({
       y: Number
     },
     realm: {
+      id: Number,
       x: Number,
       y: Number
     }

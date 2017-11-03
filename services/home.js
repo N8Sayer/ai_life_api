@@ -1,7 +1,11 @@
-import express from 'express';
+var home = require('express').Router();
 
-const router = express.Router();
-
-router.get('/home', function(req, res) {
+home.get('/home', function(req, res) {
   res.send("<h1>Home!</h1>");
 });
+
+home.get('/', function(req, res) {
+  res.send("<h1>Home!</h1>");
+});
+
+module.exports = home;
