@@ -29,6 +29,6 @@ io.use(io_authenticate);
 io.on('connection', io_connection);
 
 
-http.listen(5000, () => {
+http.listen(process.env.PORT || 5000, () => {
   console.log("Server booted on port 5000");
 });
