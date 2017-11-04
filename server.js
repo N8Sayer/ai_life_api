@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const statusMonitor = require('express-status-monitor');
+const cookieParser = require('cookie-parser');
 
 const { io_authenticate } = require('./middleware/authentication');
 
@@ -15,6 +16,7 @@ var io = require('socket.io')(http);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(statusMonitor());
+app.use(cookieParser());
 
 /*
   Structure the API url like so. That way, if needed, we can
