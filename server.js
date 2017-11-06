@@ -1,3 +1,5 @@
+global.__basedir = __dirname;
+
 const bodyParser = require('body-parser');
 const statusMonitor = require('express-status-monitor');
 const cookieParser = require('cookie-parser');
@@ -13,6 +15,11 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(statusMonitor());

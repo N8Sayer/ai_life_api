@@ -1,6 +1,7 @@
 const authentication = function(req, res, next) {
   var token = req.cookies.token;
   //find by token;
+  //res.sendStatus(404);
   next();
 };
 
