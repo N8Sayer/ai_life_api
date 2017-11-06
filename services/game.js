@@ -1,6 +1,6 @@
 const express = require('express');
 const { authentication } = require('../middleware/authentication');
-const genForest = require('../generation/genForest');
+const genForest = require('../generation/biome/genForest');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 var game = require('express').Router();
