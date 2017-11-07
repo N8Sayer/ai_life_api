@@ -1,6 +1,7 @@
 const {overlaps} = require('../../util/boundaries');
 
-const genEntites = (map, obstacles, amount, key) => {
+const genEntites = (map, obstacles, amount, key, bbox) => {
+  var skips = 0;
   for (let i = 0; i < amount; i++) {
     let randX = Math.floor(Math.random() * (map.background.width - 50)) + 50;
     let randY = Math.floor(Math.random() * (map.background.height - 50)) + 50;
@@ -8,8 +9,8 @@ const genEntites = (map, obstacles, amount, key) => {
     var rect1 = {
       x: randX,
       y: randY,
-      width: 10,
-      height: 20
+      width: bbox.width,
+      height: bbox.height
     }
 
     var skip = false;
@@ -20,7 +21,8 @@ const genEntites = (map, obstacles, amount, key) => {
       }
     }
     if (skip) {
-      i--;
+      skips+=1;
+      if(skips < 20) i--;
       continue;
     };
 

@@ -18,10 +18,20 @@ game.get('/game', authentication, function(req, res) {
 
 game.post('/state', authentication, function(req, res) {
 
+  /*var user = req.user;
+
+  Realm.findByPosition({user.gameState.realm.x, user.gameState.realm.y}).then((realm) => {
+    if(!realm) {
+      //Generate new realm!
+    } else {
+      res.send(realm);
+    }
+  });*/
+
   //var map = JSON.parse(fs.readFileSync(__dirname + '/testMap.json'));
   //res.set('Content-Type', 'application/json');
+  
   var map = genForest();
-
   res.send(JSON.stringify(map));
 
 });

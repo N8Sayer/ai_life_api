@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+var mongoose = require('mongoose');
 
 const db = mongoose.connect('mongodb://127.0.0.1/ailifegame');
 

@@ -1,4 +1,5 @@
 const genEntites = require('../entites/genEntites');
+const { genAllTrees } = require('../items/genTrees');
 const {overlaps} = require('../../util/boundaries');
 
 const genForest = (params) => {
@@ -11,50 +12,13 @@ const genForest = (params) => {
     "key": 'background'
   };
 
-  var trees = addTrees(map);
+  var obstacles = [];
+  genAllTrees(map, obstacles);
 
-  genEntites(map, trees, 10, 'Llama');
-  genEntites(map, trees, 10, 'Sheep');
+  genEntites(map, obstacles, 10, 'Llama', {width: 10, height: 20});
+  genEntites(map, obstacles, 10, 'Sheep', {width: 10, height: 20});
 
   return map;
 };
-
-const addTrees = (map) => {
-  let trees = [];
-  for (let y = 50; y < 1000; y += 150) {
-    for (let x = 50; x < 2000; x += 150) {
-      let rand = Math.floor(Math.random() * (100 - 5)) + 5;
-
-      var rect1 = {
-        x: x + rand,
-        y: (y + 70) - rand,
-        width: 70,
-        height: 20
-      }
-
-      var skip = false;
-      for (let i = 0; i < trees.length; i++) {
-        if (overlaps(rect1, trees[i])) {
-          skip = true;
-          break;
-        }
-      }
-      if (skip) continue;
-
-      trees.push(rect1);
-
-      map.items.push({
-        "name": "Tree",
-        "position": {
-          "x": x + rand,
-          "y": y - rand
-        }
-      });
-    }
-  }
-  return trees;
-}
-
-
 
 module.exports = genForest;
