@@ -24,6 +24,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
     "express-status-monitor": "^1.0.1",
+    "hashmap": "^2.3.0",
     "mongoose": "^4.12.5",
     "socket.io": "^2.0.4"
   }

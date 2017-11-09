@@ -1,14 +1,6 @@
-const express = require('express');
-const { authentication } = require('../middleware/authentication');
-const bodyParser = require('body-parser');
-const fs = require('fs');
-
-const { genForest } = require('../generation/biome/');
-const generationManager = require('../generation/generationManager');
-const memoryMap = require('../db/memoryMap');
-
-var game = require('express').Router();
-
+const update = require('./update');
+const disconnect = require('./disconnect');
+const realm = require('./realm');
 
 /**
   TODO:
@@ -40,61 +32,14 @@ var game = require('express').Router();
 
 */
 
+const io_connect = (socket) => {
+  console.log("User connected");
 
-game.use('/game', authentication);
-
-game.use('/game', express.static(__dirname + '/game'));
-
-game.post('/state', authentication, function(req, res) {
-  /*
-  var user = req.user;
-  var realm = memoryMap.getRealm(user.gameState.realm.id);
-
-  if(realm) {
-    res.send(realm);
-  } else {
-    Realm.findByPosition({user.gameState.realm.x, user.gameState.realm.y}).then((dbRealm) => {
-      if(!dbRealm) {
-        var newRealm = generationManager(user.gameState.realm.position);
-        newRealm.players.push(user);
-        memoryMap.set(newRealm.id, newRealm);
-        res.send(newRealm);
-        //Generate new realm!
-      } else {
-        dbRealm.players.push(user);
-        memoryMap.set(dbRealm.id, dbRealm);
-        res.send(dbRealm);
-      }
-    });
-  }
-  */
-
-  //var map = JSON.parse(fs.readFileSync(__dirname + '/testMap.json'));
-  //res.set('Content-Type', 'application/json');
-
-  var map = genForest();
-  res.send(JSON.stringify(map));
-
-});
-
-game.post('/update', authentication, function(req, res) {
-
-  var user = req.user;
-  var map = req.map;
-
-  Realm.save(map).then(() => {
-    User.save(user).then(() => {
+  socket.on('update', function(data, callback) { update(socket, data, callback) });
+  socket.on('realm', function(data, callback) { realm(socket, data, callback) });
+  socket.on('disconnect', function(data, callback) { disconnect(socket, data, callback) });
+}
 
 
 
-    }).catch((err) => {
-
-    });
-  }).catch((err) => {
-
-  });
-
-
-});
-
-module.exports = game;
+module.exports = io_connect;

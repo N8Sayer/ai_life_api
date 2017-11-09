@@ -19,6 +19,7 @@ const authentication = function(req, res, next) {
 };
 
 const io_authenticate = (socket, next) => {
+  console.log("IO Authenticate...");
   next();
 };
 

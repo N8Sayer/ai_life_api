@@ -9,7 +9,7 @@ var RealmSchema = new mongoose.Schema({
     y: {
       type: Number,
       required: true
-    }
+    },
     required: true
   },
   background: {
@@ -22,7 +22,7 @@ var RealmSchema = new mongoose.Schema({
       required: true
     },
     key: {
-      type: Sring,
+      type: String,
       required: true
     }
   },
@@ -40,7 +40,7 @@ var RealmSchema = new mongoose.Schema({
           type: Number,
           required: true
         }
-      }
+      },
       required: true
   }],
   items: [{
@@ -57,7 +57,7 @@ var RealmSchema = new mongoose.Schema({
         type: Number,
         required: true
       }
-    }
+    },
     required: true
   }]
 });
