@@ -1,7 +1,15 @@
 var { User } = require('../models/User');
+const users = require('../db/Sockets');
 
 const authentication = function(req, res, next) {
   var token = req.cookies.token;
+
+  //var token = req.body.token;
+
+  console.log("Token: " + token);
+
+  var user = users.getUser(token);
+  if(!user) users.setUser(token, {token, position: {x: 50, y: 50}, health: 100});
 
   /*User.findByToken(token).then((user) => {
     if(!user) return Promise.reject();
@@ -19,7 +27,8 @@ const authentication = function(req, res, next) {
 };
 
 const io_authenticate = (socket, next) => {
-  console.log("IO Authenticate...");
+  console.log("IO Cookie: " + socket.cookies.token);
+  console.log("io authentication...")
   next();
 };
 

@@ -25,7 +25,7 @@ const update = (socket, data, callback) => {
       break;
   }
 
-  callback(valid);
+  //callback(valid);
 };
 
 const stat = (content) => {
@@ -33,7 +33,7 @@ const stat = (content) => {
 }
 
 const move = (content) => {
-
+  console.log(content)
 }
 
 const realmUp = (socket, content) => {

@@ -24,9 +24,6 @@ var UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  lastLoggedIn: {
-    type: Date
-  },
   gameState: {
     position: {
       x: {
@@ -38,11 +35,11 @@ var UserSchema = new mongoose.Schema({
         required: true
       }
     },
+    health: {
+      type: Number,
+      required: true
+    },
     realm: {
-      id: {
-        type: Number,
-        required: true
-      },
       x: {
         type: Number,
         required: true
@@ -92,7 +89,7 @@ UserSchema.statics.findByToken = function(token) {
   var decoded;
 
   try {
-      decoded = jwt.verify(token, 'wingwing');
+      decoded = jwt.verify(token, 'abc123');
   } catch (err) {
       return Promise.reject();
   }
@@ -122,6 +119,22 @@ UserSchema.statics.findByCredentials = function(email, password) {
       });
     });
 };
+
+UserSchema.statics.accountExists = function(username, email) {
+  var User = this;
+
+  return User.findOne({email: email}).then(function(user) {
+    if(!user) {
+      return User.findOne({username: username}).then(function(user) {
+        if(!user) {
+          Promise.resolve();
+        }
+        Promise.reject("Username is being used");
+      });
+    }
+    Promise.reject("Email is being used");
+  });
+}
 
 UserSchema.pre('save', function(next) {
     var user = this;

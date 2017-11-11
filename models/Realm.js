@@ -9,8 +9,7 @@ var RealmSchema = new mongoose.Schema({
     y: {
       type: Number,
       required: true
-    },
-    required: true
+    }
   },
   background: {
     height: {
@@ -40,8 +39,7 @@ var RealmSchema = new mongoose.Schema({
           type: Number,
           required: true
         }
-      },
-      required: true
+      }
   }],
   items: [{
     name: {
@@ -57,8 +55,7 @@ var RealmSchema = new mongoose.Schema({
         type: Number,
         required: true
       }
-    },
-    required: true
+    }
   }]
 });
 
@@ -69,10 +66,7 @@ RealmSchema.methods.toJSON = function() {
 RealmSchema.statics.findByPosition = function(position) {
     var Realm = this;
 
-    return Realm.findOne({position: position}).then(function(realm){
-      if(!realm) return Promise.reject();
-      resolve(realm);
-    });
+    return Realm.findOne({'position.x': position.x, 'position.y': position.y});
 };
 
 var Realm = mongoose.model('Realms', RealmSchema);

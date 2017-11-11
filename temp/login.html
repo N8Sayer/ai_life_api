@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+  </head>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .container {
+        display: flex;
+        margin: auto;
+        margin-top: 50px;
+        flex-direction: column;
+        border-radius: 5px;
+        border-color: gray;
+        border-style: solid;
+        border-width: 1px;
+        padding: 50px;
+    }
+
+    input {
+      max-width: 200px;
+      margin: 5px
+    }
+
+  </style>
+
+  <script type="text/javascript"  src="jquery-3.2.1.min.js"></script>
+
+  <script type="text/javascript">
+
+    function login() {
+      var email = document.getElementById("login-email").value;
+      var username = document.getElementById("login-username").value;
+      var password = document.getElementById("login-password").value;
+
+      if((email.length > 0 || username.length > 0) && password.length > 10) {
+
+      }
+    }
+
+    function create() {
+      var firstname = document.getElementById("firstname").value;
+      var lastname = document.getElementById("lastname").value;
+      var email = document.getElementById("create-email").value;
+      var username = document.getElementById("create-username").value;
+      var password = document.getElementById("create-password").value;
+
+      if(firstname.length > 0 && lastname.length > 0 && email.length > 0 && username.length > 0 && password.length > 0) {
+
+        $.post('http://127.0.0.1:5000/api/v1/create', {
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          username: username,
+          password: password
+        }, function(data, status) {
+          if(data.status === 200){
+            window.location.href = 'http://127.0.0.1:3000/';
+          } else {
+            document.getElementById('errorMessageCreate').innerHTML = data.message;
+          }
+        });
+
+      }
+    }
+
+  </script>
+  <body>
+    <div class="container">
+      <input type="text" name="" value="" placeholder="Email" id="login-email">
+      <input type="text" name="" value="" placeholder="or Username" id="login-username">
+      <input type="password" name="" value="" id="login-password">
+      <button type="button" name="button" onclick="login()">Login</button>
+      <p id="errorMessageLogin"></p>
+    </div>
+    <div class="container">
+      <input type="text" name="" value="" placeholder="First name" id="firstname">
+      <input type="text" name="" value="" placeholder="Last name" id="lastname">
+      <input type="text" name="" value="" placeholder="Email" id="create-email">
+      <input type="text" name="" value="" placeholder="Username" id="create-username">
+      <input type="password" name="" value="" id="create-password">
+      <button type="button" name="button" onclick="create()">Create Account</button>
+      <p id="errorMessageCreate"></p>
+    </div>
+  </body>
+</html>

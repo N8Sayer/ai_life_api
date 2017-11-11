@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
-const db = mongoose.connect('mongodb://127.0.0.1/ailifegame');
+mongoose.connect('mongodb://127.0.0.1/ailifegame');
 
-export default db;
+module.exports = {
+  db: mongoose
+};

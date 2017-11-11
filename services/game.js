@@ -1,5 +1,7 @@
 const express = require('express');
 const { authentication } = require('../middleware/authentication');
+const { User } = require('../models/User');
+const { Realm } = require('../models/Realm');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 
@@ -46,34 +48,56 @@ game.use('/game', authentication);
 game.use('/game', express.static(__dirname + '/game'));
 
 game.post('/state', authentication, function(req, res) {
-  /*
-  var user = req.user;
-  var realm = memoryMap.getRealm(user.gameState.realm.id);
 
-  if(realm) {
-    res.send(realm);
-  } else {
-    Realm.findByPosition({user.gameState.realm.x, user.gameState.realm.y}).then((dbRealm) => {
-      if(!dbRealm) {
-        var newRealm = generationManager(user.gameState.realm.position);
-        newRealm.players.push(user);
-        memoryMap.set(newRealm.id, newRealm);
-        res.send(newRealm);
-        //Generate new realm!
-      } else {
-        dbRealm.players.push(user);
-        memoryMap.set(dbRealm.id, dbRealm);
-        res.send(dbRealm);
-      }
-    });
-  }
-  */
+  User.findByToken(req.body.token).then(function(user) {
+    if(!user) Promise.reject("No user found");
+
+    var userClone = {username: user.username, gameState: user.gameState};
+
+    var realmId = user.gameState.realm.x + "-" + user.gameState.realm.y;
+    var mrealm = memoryMap.getRealm(realmId);
+    mrealm = null; //TODO
+
+    if(mrealm) {
+      console.log("Sending realm in memory")
+      mrealm.players = [];
+      mrealm.players.push(userClone);
+      res.send(mrealm);
+    } else {
+      Realm.findByPosition({x: user.gameState.realm.x, y: user.gameState.realm.y}).then(function(dbRealm) {
+        if(!dbRealm) {
+          //Generate new realm!
+          console.log("Generation new realm");
+          var newRealm = generationManager(user.gameState.realm.position);
+          newRealm.position = { x: user.gameState.realm.x, y: user.gameState.realm.y };
+          Realm.insertMany([newRealm]).then(function() { console.log("Created new realm at: " + (realmId)) });
+          newRealm.players = [];
+          newRealm.players.push(userClone);
+          memoryMap.setRealm(realmId, newRealm);
+          res.send(newRealm);
+        } else {
+          console.log("Sending realm in database");
+          dbRealm.players = [];
+          dbRealm.players.push(userClone);
+          memoryMap.setRealm(realmId, dbRealm);
+          res.send(dbRealm);
+        }
+      }).catch((err) => {
+        console.log("REALM ERROR " + err);
+        res.sendStatus(404);
+      });
+    }
+
+  }).catch((err) => {
+    console.log("USER ERROR " + err);
+    res.sendStatus(404);
+  });
 
   //var map = JSON.parse(fs.readFileSync(__dirname + '/testMap.json'));
   //res.set('Content-Type', 'application/json');
 
-  var map = genForest();
-  res.send(JSON.stringify(map));
+  //var map = genForest();
+  //res.send(JSON.stringify(map));
 
 });
 

@@ -1,5 +1,5 @@
 const disconnect = (data) => {
-  console.log(data);
+  console.log("User disconnected!");
 };
 
 module.exports = disconnect;

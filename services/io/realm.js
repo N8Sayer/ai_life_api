@@ -1,5 +1,5 @@
 const realm = (data, callback) => {
-  console.log(data);
+  console.log("Realm stuff");
   callback();
 };
 
