@@ -38,10 +38,20 @@
 
     function login() {
       var email = document.getElementById("login-email").value;
-      var username = document.getElementById("login-username").value;
       var password = document.getElementById("login-password").value;
 
-      if((email.length > 0 || username.length > 0) && password.length > 10) {
+      if(email.length > 0 && password.length > 0) {
+
+        $.post('http://192.168.1.23:5000/api/v1/login', {
+          email: email,
+          password: password
+        }, function(data) {
+          if(data.status === 200){
+            window.location.href = 'http://192.168.1.23:5000/api/v1/game/game/';
+          } else {
+            document.getElementById('errorMessageLogin').innerHTML = data.message;
+          }
+        });
 
       }
     }
@@ -55,15 +65,15 @@
 
       if(firstname.length > 0 && lastname.length > 0 && email.length > 0 && username.length > 0 && password.length > 0) {
 
-        $.post('http://127.0.0.1:5000/api/v1/create', {
+        $.post('http://192.168.1.23:5000/api/v1/create', {
           firstname: firstname,
           lastname: lastname,
           email: email,
           username: username,
           password: password
-        }, function(data, status) {
+        }, function(data) {
           if(data.status === 200){
-            window.location.href = 'http://127.0.0.1:3000/';
+            window.location.href = 'http://192.168.1.23:5000/api/v1/game/game/';
           } else {
             document.getElementById('errorMessageCreate').innerHTML = data.message;
           }
@@ -76,7 +86,6 @@
   <body>
     <div class="container">
       <input type="text" name="" value="" placeholder="Email" id="login-email">
-      <input type="text" name="" value="" placeholder="or Username" id="login-username">
       <input type="password" name="" value="" id="login-password">
       <button type="button" name="button" onclick="login()">Login</button>
       <p id="errorMessageLogin"></p>

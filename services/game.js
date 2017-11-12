@@ -45,11 +45,15 @@ var game = require('express').Router();
 
 game.use('/game', authentication);
 
-game.use('/game', express.static(__dirname + '/game'));
+game.use('/game', express.static(__basedir + '/game'));
+
+game.get('/game', function(req, res) {
+  res.sendFile(__basedir + '/game/index.html');
+});
 
 game.post('/state', authentication, function(req, res) {
 
-  User.findByToken(req.body.token).then(function(user) {
+  User.findByToken(req.cookies.token).then(function(user) {
     if(!user) Promise.reject("No user found");
 
     var userClone = {username: user.username, gameState: user.gameState};

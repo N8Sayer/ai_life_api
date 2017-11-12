@@ -75,7 +75,7 @@ UserSchema.methods.generateAuthToken = function() {
   var token = jwt.sign({
     _id: user._id.toHexString(),
      access
-  },'wingwing').toString();
+  },'abc123').toString();
 
   user.tokens.push({access, token});
 
@@ -111,28 +111,26 @@ UserSchema.statics.findByCredentials = function(email, password) {
 
       return new Promise(function(resolve, reject){
         bcrypt.compare(password, user.password, function(err, res) {
-          if(res){
-            resolve(user);
-          }
+          if(res) resolve(user);
           reject();
         });
       });
     });
 };
 
-UserSchema.statics.accountExists = function(username, email) {
+UserSchema.statics.accountNotExists = function(email, username) {
   var User = this;
 
-  return User.findOne({email: email}).then(function(user) {
-    if(!user) {
-      return User.findOne({username: username}).then(function(user) {
-        if(!user) {
-          Promise.resolve();
-        }
-        Promise.reject("Username is being used");
-      });
-    }
-    Promise.reject("Email is being used");
+  console.log("Email: " + email);
+  console.log("Username: " + username);
+
+  return User.findOne({$or: [
+    {email: email},
+    {username: username}
+  ]}).then(function(user) {
+    console.log("User found: " + user);
+    if(user) return Promise.reject("Account is being used");
+    return Promise.resolve();
   });
 }
 

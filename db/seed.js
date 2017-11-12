@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://127.0.0.1/ailifegame');
+mongoose.connect('mongodb://192.168.1.23/ailifegame');
 
 const { User } = require('../models/User');
 const { Realm } = require('../models/Realm');
